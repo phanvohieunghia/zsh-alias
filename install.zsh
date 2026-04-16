@@ -27,13 +27,13 @@ print_info() { echo "${CYAN}  →${NC} $1"; }
 # ── danh sách các bộ alias ───────────────────────────────────
 # format: "id|label|category|path"
 BUNDLES=(
-  "git|Git shortcuts & PR opener|🔧 Tools|tools/git/aliases.zsh"
-  "npm|npm / yarn / pnpm|🔧 Tools|tools/npm/aliases.zsh"
-  "macos|macOS system utilities|🔧 Tools|tools/macos/aliases.zsh"
-  "ssh-tmux|SSH & tmux|🔧 Tools|tools/ssh-tmux/aliases.zsh"
-  "frontend|Frontend — React, Vite, build|👤 Roles|roles/frontend/aliases.zsh"
-  "backend|Backend — Node, Python, DB|👤 Roles|roles/backend/aliases.zsh"
-  "devops|DevOps — Docker, Terraform, AWS|👤 Roles|roles/devops/aliases.zsh"
+  "git|Git shortcuts & PR opener|🔧 Tools|zsh-alias/tools/git/aliases.zsh"
+  "npm|npm / yarn / pnpm|🔧 Tools|zsh-alias/tools/npm/aliases.zsh"
+  "macos|macOS system utilities|🔧 Tools|zsh-alias/tools/macos/aliases.zsh"
+  "ssh-tmux|SSH & tmux|🔧 Tools|zsh-alias/tools/ssh-tmux/aliases.zsh"
+  "frontend|Frontend — React, Vite, build|👤 Roles|zsh-alias/roles/frontend/aliases.zsh"
+  "backend|Backend — Node, Python, DB|👤 Roles|zsh-alias/roles/backend/aliases.zsh"
+  "devops|DevOps — Docker, Terraform, AWS|👤 Roles|zsh-alias/roles/devops/aliases.zsh"
 )
 
 # ── helpers ──────────────────────────────────────────────────
