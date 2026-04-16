@@ -7,7 +7,7 @@ Bộ sưu tập alias cho macOS / zsh — tổ chức theo **tool** và **role**
 ## Cài đặt nhanh
 
 ```zsh
-git clone https://github.com/phanvohieunghia/zsh-aliases ~/zsh-alias
+git clone https://github.com/phanvohieunghia/zsh-alias.git ~/zsh-alias
 cd ~/zsh-alias
 zsh install.zsh
 ```
