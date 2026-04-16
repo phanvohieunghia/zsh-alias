@@ -2,9 +2,11 @@
 # ============================================================
 # install.zsh — Interactive installer cho zsh-aliases
 # Usage:
-#   zsh install.zsh           → menu chọn bộ alias
-#   zsh install.zsh --all     → cài tất cả
-#   zsh install.zsh --list    → xem danh sách các bộ alias
+#   zsh install.zsh              → menu chọn bộ alias
+#   zsh install.zsh --all        → cài tất cả
+#   zsh install.zsh --list       → xem danh sách các bộ alias
+#   zsh install.zsh --remove     → menu gỡ bộ alias đã cài
+#   zsh install.zsh --remove <id> → gỡ bộ alias theo id
 # ============================================================
 
 set -e
@@ -79,6 +81,26 @@ cmd_list() {
   echo ""
 }
 
+# ── remove single bundle ─────────────────────────────────────
+remove_bundle() {
+  local id=$1
+  local label=$2
+  local marker_start="${MARKER_PREFIX}${id}"
+
+  if ! is_installed "$id"; then
+    print_warn "'${id}' chưa được cài, bỏ qua."
+    return 0
+  fi
+
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "/${marker_start}/,/${MARKER_SUFFIX}/d" "$ZSHRC"
+  else
+    sed -i "/${marker_start}/,/${MARKER_SUFFIX}/d" "$ZSHRC"
+  fi
+
+  print_ok "Đã gỡ: ${BOLD}${id}${NC} — ${label}"
+}
+
 # ── install single bundle ────────────────────────────────────
 install_bundle() {
   local id=$1
@@ -120,6 +142,106 @@ install_bundle() {
   } >> "$ZSHRC"
 
   print_ok "Đã cài: ${BOLD}${id}${NC} — ${label}"
+}
+
+# ── remove mode ──────────────────────────────────────────────
+cmd_remove() {
+  local target_id="${1:-}"
+
+  # --remove <id> trực tiếp
+  if [[ -n "$target_id" ]]; then
+    local found=0
+    for bundle in "${BUNDLES[@]}"; do
+      if [[ "$(bundle_id "$bundle")" == "$target_id" ]]; then
+        found=1
+        local backup="$HOME/.zshrc.bak.$(date +%Y%m%d_%H%M%S)"
+        cp "$ZSHRC" "$backup" 2>/dev/null
+        print_ok "Backup: $backup"
+        remove_bundle "$target_id" "$(bundle_label "$bundle")"
+        source "$ZSHRC" 2>/dev/null || true
+        break
+      fi
+    done
+    [[ $found -eq 0 ]] && print_err "Không tìm thấy bundle: '$target_id'"
+    return
+  fi
+
+  # Interactive remove menu
+  print_banner
+  echo "${BOLD}Chọn bộ alias muốn gỡ:${NC} ${DIM}(nhập số, cách nhau bởi space. VD: 1 3)${NC}"
+  echo ""
+
+  local prev_cat=""
+  local i=0
+  local installed_map=()
+
+  for bundle in "${BUNDLES[@]}"; do
+    i=$((i+1))
+    local id=$(bundle_id "$bundle")
+    local label=$(bundle_label "$bundle")
+    local cat=$(bundle_cat "$bundle")
+
+    [ "$cat" != "$prev_cat" ] && echo "  ${BOLD}${MAGENTA}${cat}${NC}" && prev_cat="$cat"
+
+    if is_installed "$id"; then
+      echo "    ${RED}[${i}]${NC} ${label} ${DIM}(đã cài)${NC}"
+    else
+      echo "    ${DIM}[-]${NC} ${DIM}${label}${NC}"
+    fi
+    installed_map+=("$bundle")
+  done
+
+  echo ""
+  echo "  ${RED}[a]${NC} Gỡ tất cả"
+  echo "  ${BLUE}[q]${NC} Thoát"
+  echo ""
+  printf "${BOLD}Lựa chọn: ${NC}"
+  read -r selection
+
+  [[ "$selection" == "q" ]] && echo "👋 Thoát." && exit 0
+
+  local selected_bundles=()
+  if [[ "$selection" == "a" ]]; then
+    for bundle in "${BUNDLES[@]}"; do
+      is_installed "$(bundle_id "$bundle")" && selected_bundles+=("$bundle")
+    done
+  else
+    for num in ${=selection}; do
+      if [[ "$num" =~ ^[0-9]+$ ]] && (( num >= 1 && num <= ${#BUNDLES[@]} )); then
+        local b="${BUNDLES[$num]}"
+        if is_installed "$(bundle_id "$b")"; then
+          selected_bundles+=("$b")
+        else
+          print_warn "Bundle chưa được cài: $(bundle_id "$b") (bỏ qua)"
+        fi
+      else
+        print_warn "Số không hợp lệ: $num (bỏ qua)"
+      fi
+    done
+  fi
+
+  [ ${#selected_bundles[@]} -eq 0 ] && print_warn "Không có bộ nào được chọn." && exit 0
+
+  echo ""
+  print_info "Tạo backup ~/.zshrc..."
+  local backup="$HOME/.zshrc.bak.$(date +%Y%m%d_%H%M%S)"
+  cp "$ZSHRC" "$backup" 2>/dev/null || true
+  print_ok "Backup: $backup"
+  echo ""
+
+  for bundle in "${selected_bundles[@]}"; do
+    remove_bundle "$(bundle_id "$bundle")" "$(bundle_label "$bundle")"
+  done
+
+  echo ""
+  print_info "Chạy source ~/.zshrc..."
+  source "$ZSHRC" 2>/dev/null && print_ok "source thành công!" || print_warn "Mở terminal mới để áp dụng."
+
+  echo ""
+  echo "${BOLD}${CYAN}══════════════════════════════════════════${NC}"
+  echo "${BOLD}  ✅ Gỡ cài đặt hoàn tất!${NC}"
+  echo "${BOLD}${CYAN}══════════════════════════════════════════${NC}"
+  echo ""
 }
 
 # ── interactive menu ─────────────────────────────────────────
@@ -226,7 +348,8 @@ cmd_all() {
 
 # ── entry point ──────────────────────────────────────────────
 case "${1:-}" in
-  --all)  cmd_all ;;
-  --list) cmd_list ;;
-  *)      cmd_interactive ;;
+  --all)    cmd_all ;;
+  --list)   cmd_list ;;
+  --remove) cmd_remove "${2:-}" ;;
+  *)        cmd_interactive ;;
 esac
