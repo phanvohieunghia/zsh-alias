@@ -7,8 +7,8 @@ Bộ sưu tập alias cho macOS / zsh — tổ chức theo **tool** và **role**
 ## Cài đặt nhanh
 
 ```zsh
-git clone https://github.com/<your-username>/zsh-aliases.git ~/zsh-aliases
-cd ~/zsh-aliases
+git clone https://github.com/phanvohieunghia/zsh-aliases ~/zsh-alias
+cd ~/zsh-alias
 zsh install.zsh
 ```
 
@@ -30,19 +30,19 @@ zsh install.zsh --list    # Xem danh sách & trạng thái
 
 ### 🔧 Tools
 
-| ID         | Mô tả |
-|------------|-------|
-| `git`      | Git shortcuts, gpr (mở PR), gclean, gwip... |
-| `npm`      | npm / yarn / pnpm, auto-detect package manager |
+| ID         | Mô tả                                           |
+| ---------- | ----------------------------------------------- |
+| `git`      | Git shortcuts, gpr (mở PR), gclean, gwip...     |
+| `npm`      | npm / yarn / pnpm, auto-detect package manager  |
 | `macos`    | Navigation, killport, network, Finder, serve... |
-| `ssh-tmux` | SSH key gen/copy, tmux sessions, tdev layout |
+| `ssh-tmux` | SSH key gen/copy, tmux sessions, tdev layout    |
 
 ### 👤 Roles
 
-| ID         | Mô tả |
-|------------|-------|
-| `frontend` | Vite, React, Next, Vitest, Cypress, ESLint, Lighthouse |
-| `backend`  | Node/nvm, Python/venv, PostgreSQL, Redis, MongoDB, curl |
+| ID         | Mô tả                                                     |
+| ---------- | --------------------------------------------------------- |
+| `frontend` | Vite, React, Next, Vitest, Cypress, ESLint, Lighthouse    |
+| `backend`  | Node/nvm, Python/venv, PostgreSQL, Redis, MongoDB, curl   |
 | `devops`   | Docker, Docker Compose, Terraform, AWS CLI, gh CLI, nginx |
 
 ---
