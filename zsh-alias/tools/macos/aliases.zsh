@@ -38,7 +38,7 @@ alias of='open -a Finder .'
 # --- Clipboard ---
 alias pbp='pbpaste'
 alias pbc='pbcopy'
-copypwd() { pwd | pbcopy && echo "📋 Đã copy: $(pwd)" }
+copypwd() { pwd | pbcopy && echo "📋 copied: $(pwd)" }
 
 # --- Network ---
 alias ip='curl -s ifconfig.me && echo'
@@ -63,7 +63,7 @@ killport() {
 
 # --- System ---
 alias brewup='brew update && brew upgrade && brew cleanup'
-alias zrc='$EDITOR ~/.zshrc'
+alias zrc='vim ~/.zshrc'
 alias src='source ~/.zshrc && echo "✅ zshrc reloaded"'
 alias path='echo $PATH | tr ":" "\n"'
 alias cpu='top -l 1 | grep "CPU usage"'

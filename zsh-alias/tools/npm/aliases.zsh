@@ -44,7 +44,7 @@ alias plint='pnpm lint'
 alias pci='pnpm install --frozen-lockfile'
 
 # --- Auto-detect package manager ---
-# Chạy script bằng đúng package manager của project
+# Run script using the appropriate package manager for the project
 dev() {
   if [ -f "pnpm-lock.yaml" ]; then
     pnpm dev
@@ -53,7 +53,7 @@ dev() {
   elif [ -f "package-lock.json" ]; then
     npm run dev
   else
-    echo "❌ Không tìm thấy package manager. Hãy chạy install trước."
+    echo "❌ No package manager found. Please run install first."
   fi
 }
 
@@ -65,21 +65,21 @@ build() {
   elif [ -f "package-lock.json" ]; then
     npm run build
   else
-    echo "❌ Không tìm thấy package manager."
+    echo "❌ No package manager found."
   fi
 }
 
-# Xem scripts có trong package.json
+# List all scripts in package.json
 scripts() {
   if [ -f "package.json" ]; then
     cat package.json | python3 -c "
 import json,sys
 p=json.load(sys.stdin)
 scripts=p.get('scripts',{})
-print('📦 Scripts trong package.json:')
+print('📦 Scripts in package.json:')
 [print(f'  {k:<20} → {v}') for k,v in scripts.items()]
 "
   else
-    echo "❌ Không tìm thấy package.json"
+    echo "❌ No package.json file found."
   fi
 }
