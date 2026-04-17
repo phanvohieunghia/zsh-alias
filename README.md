@@ -164,58 +164,58 @@ Benefits:
 <details open>
 <summary><b>Switch</b></summary>
 
-| Alias    | Command                                                        | Description                                                 |
-| -------- | -------------------------------------------------------------- | ----------------------------------------------------------- |
-| `gw`     | `git switch`                                                   | Switch branch                                               |
-| `gwc`    | `git switch -c`                                                | Create and switch to a new branch                           |
-| `gwst`   | `git switch staging`                                           | Switch to `staging` branch                                  |
-| `gwprod` | `git switch production`                                        | Switch to `production` branch                               |
-| `gwp`    | `git switch $(git branch -r \| fzf \| sed "s/origin\///")`     | Pick a remote branch via `fzf` and switch to it             |
+| Alias    | Command                                                    | Description                                     |
+| -------- | ---------------------------------------------------------- | ----------------------------------------------- |
+| `gw`     | `git switch`                                               | Switch branch                                   |
+| `gwc`    | `git switch -c`                                            | Create and switch to a new branch               |
+| `gwst`   | `git switch staging`                                       | Switch to `staging` branch                      |
+| `gwprod` | `git switch production`                                    | Switch to `production` branch                   |
+| `gwp`    | `git switch $(git branch -r \| fzf \| sed "s/origin\///")` | Pick a remote branch via `fzf` and switch to it |
 
 </details>
 
 <details open>
 <summary><b>Stash</b></summary>
 
-| Alias  | Command                 | Description                                 |
-| ------ | ----------------------- | ------------------------------------------- |
-| `gst`  | `git stash`             | Stash changes                               |
-| `gstp` | `git stash pop`         | Pop stash                                   |
-| `gss`  | `git stash save -u`     | Save stash including untracked files        |
-| `gsp`  | `git stash pop`         | Pop stash                                   |
-| `gsd`  | `git stash drop`        | Drop the latest stash                       |
-| `gsa`  | `git stash apply`       | Apply stash without removing it             |
+| Alias  | Command             | Description                          |
+| ------ | ------------------- | ------------------------------------ |
+| `gst`  | `git stash`         | Stash changes                        |
+| `gstp` | `git stash pop`     | Pop stash                            |
+| `gss`  | `git stash save -u` | Save stash including untracked files |
+| `gsp`  | `git stash pop`     | Pop stash                            |
+| `gsd`  | `git stash drop`    | Drop the latest stash                |
+| `gsa`  | `git stash apply`   | Apply stash without removing it      |
 
 </details>
 
 <details open>
 <summary><b>Rebase</b></summary>
 
-| Alias  | Command                  | Description                          |
-| ------ | ------------------------ | ------------------------------------ |
-| `gr`   | `git rebase`             | Rebase                               |
-| `gri`  | `git rebase -i`          | Interactive rebase                   |
-| `grb`  | `git rebase`             | Rebase                               |
-| `grbi` | `git rebase -i`          | Interactive rebase                   |
-| `grc`  | `git rebase --continue`  | Continue a paused rebase             |
-| `gra`  | `git rebase --abort`     | Abort the current rebase             |
-| `grs`  | `git rebase --skip`      | Skip current patch during rebase     |
+| Alias  | Command                 | Description                      |
+| ------ | ----------------------- | -------------------------------- |
+| `gr`   | `git rebase`            | Rebase                           |
+| `gri`  | `git rebase -i`         | Interactive rebase               |
+| `grb`  | `git rebase`            | Rebase                           |
+| `grbi` | `git rebase -i`         | Interactive rebase               |
+| `grc`  | `git rebase --continue` | Continue a paused rebase         |
+| `gra`  | `git rebase --abort`    | Abort the current rebase         |
+| `grs`  | `git rebase --skip`     | Skip current patch during rebase |
 
 </details>
 
 <details open>
 <summary><b>Reset</b></summary>
 
-| Alias / Function | Command                                              | Description                                                            |
-| ---------------- | ---------------------------------------------------- | ---------------------------------------------------------------------- |
-| `grh`            | `git reset HEAD`                                     | Reset index to HEAD (unstage, keep working tree)                       |
-| `grhh`           | `git reset --hard HEAD`                              | Discard all uncommitted changes                                        |
-| `grhs`           | `git reset --soft HEAD`                              | Soft reset to HEAD (keep index and working tree)                       |
-| `grm`            | `git reset --mixed HEAD`                             | Mixed reset to HEAD (unstage, keep working tree)                       |
-| `grhom`          | `git reset --hard origin/<current-branch>`           | Hard-reset current branch to its remote                                |
-| `gunstage`       | `git reset HEAD --`                                  | Unstage files                                                          |
-| `grhhn [n]`      | `git reset --hard HEAD~n` (with confirmation)        | Hard reset N commits back; prompts before destroying uncommitted work  |
-| `grshn [n]`      | `git reset --soft HEAD~n` (with confirmation)        | Soft reset N commits back (keeps changes, unstages commits)            |
+| Alias / Function | Command                                       | Description                                                           |
+| ---------------- | --------------------------------------------- | --------------------------------------------------------------------- |
+| `grh`            | `git reset HEAD`                              | Reset index to HEAD (unstage, keep working tree)                      |
+| `grhh`           | `git reset --hard HEAD`                       | Discard all uncommitted changes                                       |
+| `grhs`           | `git reset --soft HEAD`                       | Soft reset to HEAD (keep index and working tree)                      |
+| `grm`            | `git reset --mixed HEAD`                      | Mixed reset to HEAD (unstage, keep working tree)                      |
+| `grhom`          | `git reset --hard origin/<current-branch>`    | Hard-reset current branch to its remote                               |
+| `gunstage`       | `git reset HEAD --`                           | Unstage files                                                         |
+| `grhhn [n]`      | `git reset --hard HEAD~n` (with confirmation) | Hard reset N commits back; prompts before destroying uncommitted work |
+| `grshn [n]`      | `git reset --soft HEAD~n` (with confirmation) | Soft reset N commits back (keeps changes, unstages commits)           |
 
 </details>
 
@@ -765,21 +765,24 @@ Benefits:
 <details open>
 <summary><b>Clipboard helpers</b></summary>
 
-| Alias / Function | Description                                                           |
-| ---------------- | --------------------------------------------------------------------- |
-| `nf`             | Format clipboard text to kebab-case (useful for slugs / branch names) |
-| `nc2c`           | Copy current git branch name to clipboard (newline stripped)          |
+| Alias  | Description                                                           |
+| ------ | --------------------------------------------------------------------- |
+| `nf`   | Format clipboard text to kebab-case (useful for slugs / branch names) |
+| `nc2b` | Copy current git branch name to clipboard (newline stripped)          |
 
 </details>
 
 <details open>
 <summary><b>Git / PR</b></summary>
 
-| Function           | Description                                                                  |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `ncpr [target]`    | Open GitHub compare page: current branch vs target (default: `qc`) in Chrome |
-| `nopr <number>`    | Open PR (GitHub) or MR (GitLab) in browser by number                         |
-| `ngclean [branch]` | Delete local branches already merged into target (default: current branch)   |
+| Function           | Description                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| `nogh`             | Open the repo in Chrome (github)                                                           |
+| `nogh -c [branch]` | Compare current branch against target and open the PR creation page (default target: `qc`) |
+| `nogh -p`          | Browse all open PRs / MRs                                                                  |
+| `nogh -p <number>` | Jump to a specific PR (GitHub) or MR (GitLab) by number                                    |
+| `nogh -a`          | Go to the Actions tab (GitHub only)                                                        |
+| `ngclean [branch]` | Delete local branches already merged into target (default: current branch)                 |
 
 </details>
 
