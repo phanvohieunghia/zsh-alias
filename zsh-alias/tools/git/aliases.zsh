@@ -42,8 +42,29 @@ alias grs='git rebase --skip;'
 alias gr='git rebase'
 alias gri='git rebase -i'
 
+alias grh='git reset HEAD'
+alias grhh='git reset --hard HEAD'
+alias grhs='git reset --soft HEAD'
 
-
+grhhn() {
+  local n="${1:-1}"
+  echo "⚠️  git reset --hard HEAD~${n} (all uncommitted changes will be lost)"
+  printf "Continue? [y/N]: "
+  read -r confirm
+  [[ "$confirm" =~ ^[Yy]$ ]] || { echo "❌ Cancelled"; return 1; }
+  git reset --hard "HEAD~${n}"
+}
+grshn() {
+  local n="${1:-1}"
+  echo "⚠️  git reset --soft HEAD~${n} (keeps changes, unstages commit)"
+  printf "Continue? [y/N]: "
+  read -r confirm
+  [[ "$confirm" =~ ^[Yy]$ ]] || { echo "❌ Cancelled"; return 1; }
+  git reset --soft "HEAD~${n}"
+}
+alias grm='git reset --mixed HEAD'
+alias grhom='git reset --hard origin/$(git symbolic-ref --short HEAD)'
+alias gunstage='git reset HEAD --'
 
 # --- Functions ---
 # Push new branch + set upstream
