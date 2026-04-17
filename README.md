@@ -6,39 +6,76 @@ A collection of aliases for macOS / zsh — organized by **tool** and **role**, 
 
 ## Quick Install
 
+No clone required — install directly from GitHub:
+
 ```zsh
-git clone https://github.com/phanvohieunghia/zsh-alias.git ~/zsh-alias
-cd ~/zsh-alias
-zsh install.zsh
+# Interactive menu
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh
+
+# Install specific bundles
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- git npm
+
+# Install all bundles
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- --all
 ```
 
 ---
 
 ## Installer Usage
 
+All commands work both via remote `curl | zsh -s --` and from a local clone (`zsh install.zsh`):
+
+| Command | Description |
+|---|---|
+| *(no args)* | Interactive menu to select bundles |
+| `<id> [<id>...]` | Install one or more bundles by id (e.g. `git npm macos`) |
+| `--all` | Install all bundles |
+| `--list` | List bundles and installation status |
+| `--update` | Re-fetch the latest version of every installed bundle |
+| `--remove <id>` | Remove a single installed bundle |
+| `--uninstall` | Remove all bundles and the loader block from `~/.zshrc` |
+
+Examples (remote):
+
 ```zsh
-zsh install.zsh                # Interactive menu to select bundles
-zsh install.zsh --all          # Install all bundles immediately
-zsh install.zsh --list         # View list & installation status
-zsh install.zsh --remove       # Interactive menu to remove bundles
-zsh install.zsh --remove <id>  # Remove a specific bundle by ID
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- --list
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- --update
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- --remove git
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- --uninstall
 ```
 
 ---
 
 ## How It Works
 
-`install.zsh` injects each bundle into `~/.zshrc` using markers:
+The installer downloads **only the bundles you pick** from GitHub raw content and saves each one as a standalone file under `~/.config/zsh-alias/`:
 
-```zsh
-# >>> zsh-aliases:git
-# Git shortcuts & PR opener
-# Injected: 2026-04-16 10:00:00
-source "/Users/you/zsh-aliases/tools/git/aliases.zsh"
-# <<< zsh-aliases:git <<<
+```
+~/.config/zsh-alias/
+├── git.zsh
+├── npm.zsh
+└── macos.zsh
 ```
 
-Each bundle has its own marker so they can be installed, overwritten, or removed independently. A timestamped backup of `~/.zshrc` is always created before any changes.
+A single loader block is added to `~/.zshrc` that sources every `.zsh` file in that directory:
+
+```zsh
+# >>> zsh-alias:loader >>>
+# Loads alias bundles from /Users/you/.config/zsh-alias
+if [ -d "$HOME/.config/zsh-alias" ]; then
+  for f in "$HOME/.config/zsh-alias"/*.zsh(N); do
+    source "$f"
+  done
+fi
+# <<< zsh-alias:loader <<<
+```
+
+Benefits:
+
+- **No repo clone required** — users never see bundles they didn't install
+- **Self-contained** — uninstalling a bundle is a single `rm` of one file
+- **Clean `~/.zshrc`** — only one loader block regardless of how many bundles are installed
+- A timestamped backup of `~/.zshrc` is created before any change
 
 ---
 
@@ -481,9 +518,8 @@ Each bundle has its own marker so they can be installed, overwritten, or removed
 ## Project Structure
 
 ```
-zsh-aliases/
-├── install.zsh              ← Interactive installer
-├── aliases.zsh              ← Git tool aliases (loaded directly)
+zsh-alias/                   ← Source repo (maintainers only)
+├── install.zsh              ← Remote installer
 ├── README.md
 └── zsh-alias/
     ├── tools/
@@ -497,6 +533,14 @@ zsh-aliases/
         └── devops/aliases.zsh
 ```
 
+End-user layout after install:
+
+```
+~/.config/zsh-alias/         ← Only the bundles the user chose
+├── git.zsh
+└── npm.zsh
+```
+
 ---
 
 ## Adding a New Bundle
@@ -508,14 +552,18 @@ zsh-aliases/
 "myalias|Short description|🔧 Tools|zsh-alias/tools/myalias/aliases.zsh"
 ```
 
-3. Run `zsh install.zsh` again
+3. Commit and push to `main` — users can install with:
+
+```zsh
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- myalias
+```
 
 ---
 
 ## Updating
 
+Re-fetch the latest version of every installed bundle:
+
 ```zsh
-cd ~/zsh-alias
-git pull
-zsh install.zsh   # prompts confirmation for each previously installed bundle
+curl -fsSL https://raw.githubusercontent.com/phanvohieunghia/zsh-alias/main/install.zsh | zsh -s -- --update
 ```
