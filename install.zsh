@@ -51,6 +51,7 @@ BUNDLES=(
   "frontend|Frontend — React, Vite, build|👤 Roles|zsh-alias/roles/frontend/aliases.zsh"
   "backend|Backend — Node, Python, DB|👤 Roles|zsh-alias/roles/backend/aliases.zsh"
   "devops|DevOps — Docker, Terraform, AWS|👤 Roles|zsh-alias/roles/devops/aliases.zsh"
+  "custom|Personal custom aliases|⭐ Custom|zsh-alias/custom/aliases.zsh"
 )
 
 # ── helpers ──────────────────────────────────────────────────
@@ -192,7 +193,8 @@ cmd_install() {
   local ids=("$@")
   print_banner
   ensure_alias_dir
-  backup_zshrc
+  # TODO: comment temperarily
+  # backup_zshrc
 
   local selected_bundles=()
   for id in "${ids[@]}"; do
@@ -306,7 +308,7 @@ cmd_interactive() {
   local selection
   read -r selection < /dev/tty
 
-  [[ "$selection" == "q" ]] && echo "👋 Bye." && exit 0
+  [[ "$selection" == "q" ]] && echo "Take care! Run me again anytime you need a hand. 👋" && exit 0
   [[ "$selection" == "a" ]] && cmd_all && return
   [[ "$selection" == "u" ]] && cmd_update && return
 
