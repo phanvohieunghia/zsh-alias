@@ -17,11 +17,11 @@ alias vdeact='deactivate'
 alias pipr='pip install -r requirements.txt'
 alias pipf='pip freeze > requirements.txt'
 
-# Tạo venv và activate ngay
+# Create venv and activate immediately
 venv-init() {
   python3 -m venv .venv
   source .venv/bin/activate
-  echo "✅ Đã tạo và activate .venv"
+  echo "✅ Created and activated .venv"
   [ -f "requirements.txt" ] && pip install -r requirements.txt && echo "✅ Installed requirements"
 }
 
@@ -31,7 +31,7 @@ alias pgstop='brew services stop postgresql'
 alias pgrestart='brew services restart postgresql'
 alias pglog='tail -f /usr/local/var/log/postgresql*.log'
 
-# Connect psql nhanh
+# Quick psql connect
 pgcon() {
   local db=${1:-postgres}
   local user=${2:-$(whoami)}
@@ -57,7 +57,7 @@ alias mgcli='mongosh'
 # --- API testing ---
 alias http='httpie'
 
-# Tạo request nhanh với curl + json đẹp
+# Quick curl request with pretty JSON output
 jcurl() {
   curl -s "$@" | python3 -m json.tool
 }
@@ -67,14 +67,14 @@ alias logf='tail -f'
 alias logerr='tail -f /var/log/system.log | grep -i error'
 
 # --- Server process ---
-# Tìm process đang dùng port
+# Find process using a port
 whichport() {
   local port=$1
-  [ -z "$port" ] && echo "❌ Dùng: whichport <port>" && return 1
+  [ -z "$port" ] && echo "❌ Usage: whichport <port>" && return 1
   lsof -i tcp:"$port"
 }
 
-# Xem ENV vars của project
+# Show project ENV vars
 envshow() {
   if [ -f ".env" ]; then
     echo "📄 .env:"
@@ -83,6 +83,6 @@ envshow() {
     echo "📄 .env.local:"
     grep -v '^#' .env.local | grep -v '^$' | sort
   else
-    echo "❌ Không tìm thấy .env"
+    echo "❌ .env not found"
   fi
 }

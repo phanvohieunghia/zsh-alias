@@ -50,14 +50,14 @@ alias ports='lsof -i -P -n | grep LISTEN'
 # Usage: killport 3000
 killport() {
   local port=$1
-  [ -z "$port" ] && echo "❌ Dùng: killport <port>" && return 1
+  [ -z "$port" ] && echo "❌ Usage: killport <port>" && return 1
   local pid
   pid=$(lsof -ti tcp:"$port")
   if [ -z "$pid" ]; then
-    echo "⚠️  Không có process nào đang dùng port $port"
+    echo "⚠️  No process is using port $port"
   else
     kill -9 "$pid"
-    echo "✅ Đã kill process $pid trên port $port"
+    echo "✅ Killed process $pid on port $port"
   fi
 }
 
@@ -69,7 +69,7 @@ alias path='echo $PATH | tr ":" "\n"'
 alias cpu='top -l 1 | grep "CPU usage"'
 alias mem='top -l 1 | grep "PhysMem"'
 
-# --- Trash (thay rm) ---
+# --- Trash (replaces rm) ---
 alias trash='mv -v "$@" ~/.Trash'
 
 # --- Quick server ---
