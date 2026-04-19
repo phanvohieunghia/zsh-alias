@@ -193,8 +193,7 @@ cmd_install() {
   local ids=("$@")
   print_banner
   ensure_alias_dir
-  # TODO: comment temperarily
-  # backup_zshrc
+  backup_zshrc
 
   local selected_bundles=()
   for id in "${ids[@]}"; do
