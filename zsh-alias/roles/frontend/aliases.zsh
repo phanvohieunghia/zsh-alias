@@ -41,9 +41,9 @@ alias stylelint='npx stylelint'
 alias sb='npx storybook dev'
 alias sbbuild='npx storybook build'
 
-# --- Tiện ích ---
+# --- Utilities ---
 
-# Phân tích bundle size
+# Analyze bundle size
 bundle-size() {
   if [ -f "pnpm-lock.yaml" ]; then
     pnpm add -D source-map-explorer
@@ -55,12 +55,12 @@ bundle-size() {
   npx source-map-explorer 'build/static/js/*.js'
 }
 
-# Check lighthouse score nhanh
+# Quick lighthouse score check
 lighthouse() {
   local url=${1:-http://localhost:3000}
   npx lighthouse "$url" --view
 }
 
-# Kill port 3000 (dev server hay bị conflict)
+# Kill port 3000 (dev server often conflicts)
 alias kill3000='lsof -ti tcp:3000 | xargs kill -9 && echo "✅ Port 3000 cleared"'
 alias kill5173='lsof -ti tcp:5173 | xargs kill -9 && echo "✅ Port 5173 cleared"'

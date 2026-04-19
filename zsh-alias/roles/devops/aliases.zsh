@@ -16,7 +16,7 @@ alias dcleanall='docker system prune -af --volumes && echo "✅ Docker fully cle
 alias dlogs='docker logs -f'
 alias dexec='docker exec -it'
 
-# Build và run image nhanh
+# Build and run image quickly
 dbuild() {
   local tag=${1:-app}
   docker build -t "$tag" .
@@ -62,7 +62,7 @@ alias s3cp='aws s3 cp'
 alias s3sync='aws s3 sync'
 alias ecrlogs='aws ecr describe-repositories --query "repositories[*].repositoryName"'
 
-# Switch AWS profile nhanh
+# Switch AWS profile quickly
 awsuse() {
   export AWS_PROFILE=$1
   echo "✅ AWS Profile: $AWS_PROFILE"
@@ -83,10 +83,10 @@ alias nglog='sudo tail -f /var/log/nginx/access.log'
 alias ngerr='sudo tail -f /var/log/nginx/error.log'
 
 # --- SSL / Certs ---
-# Kiểm tra hạn cert của domain
+# Check SSL cert expiry for a domain
 certcheck() {
   local domain=$1
-  [ -z "$domain" ] && echo "❌ Dùng: certcheck <domain>" && return 1
+  [ -z "$domain" ] && echo "❌ Usage: certcheck <domain>" && return 1
   echo | openssl s_client -servername "$domain" -connect "${domain}:443" 2>/dev/null \
     | openssl x509 -noout -dates
 }
