@@ -17,6 +17,18 @@
 
 set -e
 
+# ── prerequisite check ───────────────────────────────────────
+if ! command -v zsh >/dev/null 2>&1; then
+  echo "  ❌ zsh is not installed. Please install it first:"
+  echo ""
+  echo "     macOS:   brew install zsh"
+  echo "     Ubuntu:  sudo apt install zsh"
+  echo "     Fedora:  sudo dnf install zsh"
+  echo "     Arch:    sudo pacman -S zsh"
+  echo ""
+  exit 1
+fi
+
 # ── remote config ────────────────────────────────────────────
 REPO_OWNER="phanvohieunghia"
 REPO_NAME="zsh-alias"
@@ -146,6 +158,7 @@ print_banner() {
   echo "${BOLD}${CYAN}╔══════════════════════════════════════════╗${NC}"
   echo "${BOLD}${CYAN}║       zsh-alias  —  Installer            ║${NC}"
   echo "${BOLD}${CYAN}╚══════════════════════════════════════════╝${NC}"
+  echo "  ${DIM}https://github.com/phanvohieunghia/zsh-alias${NC}"
   echo ""
 }
 
