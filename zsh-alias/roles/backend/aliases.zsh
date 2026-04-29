@@ -4,9 +4,9 @@
 
 # --- Node.js ---
 alias node-version='node -v && npm -v'
-alias nvm-list='nvm list'
-alias nvm-use='nvm use'
-alias nvm-latest='nvm install --lts && nvm use --lts'
+nvm-list()   { command -v nvm &>/dev/null || { echo "nvm-list: 'nvm' not found (https://github.com/nvm-sh/nvm)"; return 1; }; nvm list; }
+nvm-use()    { command -v nvm &>/dev/null || { echo "nvm-use: 'nvm' not found (https://github.com/nvm-sh/nvm)"; return 1; }; nvm use "$@"; }
+nvm-latest() { command -v nvm &>/dev/null || { echo "nvm-latest: 'nvm' not found (https://github.com/nvm-sh/nvm)"; return 1; }; nvm install --lts && nvm use --lts; }
 
 # --- Python ---
 alias py='python3'
@@ -33,6 +33,7 @@ alias pglog='tail -f /usr/local/var/log/postgresql*.log'
 
 # Quick psql connect
 pgcon() {
+  command -v psql &>/dev/null || { echo "pgcon: 'psql' not found (brew install postgresql)"; return 1; }
   local db=${1:-postgres}
   local user=${2:-$(whoami)}
   psql -U "$user" -d "$db"
@@ -41,21 +42,21 @@ pgcon() {
 # --- MySQL ---
 alias mystart='brew services start mysql'
 alias mystop='brew services stop mysql'
-alias mycon='mysql -u root -p'
+mycon() { command -v mysql &>/dev/null || { echo "mycon: 'mysql' not found (brew install mysql)"; return 1; }; mysql -u root -p; }
 
 # --- Redis ---
 alias rdstart='brew services start redis'
 alias rdstop='brew services stop redis'
-alias rdcli='redis-cli'
-alias rdflush='redis-cli FLUSHALL && echo "✅ Redis flushed"'
+rdcli()   { command -v redis-cli &>/dev/null || { echo "rdcli: 'redis-cli' not found (brew install redis)"; return 1; }; redis-cli "$@"; }
+rdflush() { command -v redis-cli &>/dev/null || { echo "rdflush: 'redis-cli' not found (brew install redis)"; return 1; }; redis-cli FLUSHALL && echo "✅ Redis flushed"; }
 
 # --- MongoDB ---
 alias mgstart='brew services start mongodb-community'
 alias mgstop='brew services stop mongodb-community'
-alias mgcli='mongosh'
+mgcli() { command -v mongosh &>/dev/null || { echo "mgcli: 'mongosh' not found (brew install mongosh)"; return 1; }; mongosh; }
 
 # --- API testing ---
-alias http='httpie'
+http() { command -v http &>/dev/null || { echo "http: 'httpie' not found (brew install httpie)"; return 1; }; http "$@"; }
 
 # Quick curl request with pretty JSON output
 jcurl() {

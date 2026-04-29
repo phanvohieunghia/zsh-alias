@@ -33,24 +33,29 @@ sshgen() {
 }
 
 # --- tmux ---
+_require_tmux() { command -v tmux &>/dev/null || { echo "${1}: 'tmux' not found (brew install tmux)"; return 1; }; }
+
 alias tls='tmux list-sessions'
 alias tks='tmux kill-session -t'
 alias tka='tmux kill-server'
 
 # Attach or create new session
 ta() {
+  _require_tmux ta || return 1
   local name=${1:-main}
   tmux attach-session -t "$name" 2>/dev/null || tmux new-session -s "$name"
 }
 
 # Create new session
 tn() {
+  _require_tmux tn || return 1
   local name=${1:-$(basename "$PWD")}
   tmux new-session -s "$name"
 }
 
 # Quick tmux layout for dev (editor + terminal + logs)
 tdev() {
+  _require_tmux tdev || return 1
   local name=${1:-dev}
   tmux new-session -d -s "$name" -n "editor"
   tmux new-window   -t "$name" -n "terminal"

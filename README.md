@@ -789,9 +789,10 @@ Benefits:
 <details open>
 <summary><b>Dev utilities</b></summary>
 
-| Alias   | Description                                |
-| ------- | ------------------------------------------ |
-| `nscan` | Run `react-scan` to debug React re-renders |
+| Alias / Function | Description                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------ |
+| `nscan`          | Run `react-scan` to debug React re-renders                                                       |
+| `norepo()`       | Fuzzy-pick a project directory (depth ≤ 4, excluding `node_modules`/`.git`/`dist`/`.next`) and `cd` into it |
 
 </details>
 

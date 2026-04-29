@@ -54,6 +54,21 @@ nogh() {
   unset -f _open
 }
 
+# Commit only if the message doesn't already exist in git history
+#   ncommit "feat: add login"
+ncommit() {
+  local msg="$*"
+  [ -z "$msg" ] && echo "❌ Commit message is required" && return 1
+
+  if git log --all --format=%s | grep -Fxq -- "$msg"; then
+    echo "❌ Duplicate commit message found in history:"
+    echo "   \"$msg\""
+    return 1
+  fi
+
+  git commit -m "$msg"
+}
+
 # Delete local branches already merged into the given branch (default: origin HEAD)
 ngclean() {
   local target_branch
@@ -69,5 +84,19 @@ ngclean() {
   echo "✅ Done"
 }
 
-
+# Fuzzy-pick a project directory (depth ≤ 4, excluding node_modules/.git/dist/.next)
+# then cd into it
+norepo() {
+  command -v fd  &>/dev/null || { echo "norepo: 'fd' not found (brew install fd)";  return 1; }
+  command -v fzf &>/dev/null || { echo "norepo: 'fzf' not found (brew install fzf)"; return 1; }
+  cd ~
+  local dir
+  dir="$(fd -t d --max-depth 4 \
+            -E node_modules \
+            -E .git \
+            -E dist \
+            -E .next \
+          | fzf --prompt='repo> ')" || return
+  cd "$dir"
+}
 

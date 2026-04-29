@@ -29,7 +29,10 @@ alias gwst='git switch staging;'
 alias gwprod='git switch production;'
 alias gw='git switch'
 alias gwc='git switch -c'
-alias gwp='git switch $(git branch -r | fzf | sed "s/origin\///")'
+gwp() {
+  command -v fzf &>/dev/null || { echo "gwp: 'fzf' not found (brew install fzf)"; return 1; }
+  git switch $(git branch -r | fzf | sed "s/origin\///")
+}
 
 alias gss='git stash save -u'
 alias gsp='git stash pop;'

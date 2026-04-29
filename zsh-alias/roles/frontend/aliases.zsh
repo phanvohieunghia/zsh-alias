@@ -4,18 +4,18 @@
 
 # --- Vite ---
 alias vite-new='npm create vite@latest'
-alias vite-dev='vite'
-alias vite-build='vite build'
-alias vite-preview='vite preview'
+vite-dev()     { command -v vite &>/dev/null || { echo "vite-dev: 'vite' not found (npm i -g vite)"; return 1; }; vite; }
+vite-build()   { command -v vite &>/dev/null || { echo "vite-build: 'vite' not found (npm i -g vite)"; return 1; }; vite build; }
+vite-preview() { command -v vite &>/dev/null || { echo "vite-preview: 'vite' not found (npm i -g vite)"; return 1; }; vite preview; }
 
 # --- React ---
 alias cra='npx create-react-app'
 alias next-new='npx create-next-app@latest'
 
 # --- Build / Bundle ---
-alias wb='webpack --mode production'
-alias wbd='webpack --mode development'
-alias wbw='webpack --watch'
+wb()  { command -v webpack &>/dev/null || { echo "wb: 'webpack' not found (npm i -g webpack webpack-cli)"; return 1; }; webpack --mode production; }
+wbd() { command -v webpack &>/dev/null || { echo "wbd: 'webpack' not found (npm i -g webpack webpack-cli)"; return 1; }; webpack --mode development; }
+wbw() { command -v webpack &>/dev/null || { echo "wbw: 'webpack' not found (npm i -g webpack webpack-cli)"; return 1; }; webpack --watch; }
 
 # --- CSS / Tailwind ---
 alias twbuild='npx tailwindcss -i ./src/input.css -o ./dist/output.css'
